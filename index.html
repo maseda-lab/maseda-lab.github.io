@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MASEDA Lab.</title>
+<style>
+/* Layout: 1列の読み物ページ。上に研究の紹介と手法、いちばん下にメンバー用の入り口。 */
+:root{
+  --bg:#f4f6f5; --surface:#ffffff; --ink:#17231f; --dim:#586864; --line:#d3dcd8;
+  --accent:#1f5f4f; --on-accent:#ffffff; --soft:#e3efe9;
+  --f-disp:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;
+  --f-body:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Noto Sans JP',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101816; --surface:#18221f; --ink:#e5eeea; --dim:#9aaba6; --line:#2f3f3b;
+    --accent:#7cc7b0; --on-accent:#0b1713; --soft:#1f3029; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101816; --surface:#18221f; --ink:#e5eeea; --dim:#9aaba6; --line:#2f3f3b;
+  --accent:#7cc7b0; --on-accent:#0b1713; --soft:#1f3029; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.9 var(--f-body);
+  padding-block:32px 64px;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+main{max-width:720px;margin:0 auto;display:grid;gap:28px;grid-template-columns:minmax(0,1fr)}
+/* 上の大きな絵: hero.jpg を同じ場所に置くと、その上に文字が重なります。無いときは、緑の背景だけになります。 */
+header{display:grid;align-content:end;gap:6px;min-height:clamp(200px,38vw,300px);padding:24px 22px;border-radius:12px;color:#fff;
+  background:linear-gradient(180deg,rgba(8,22,18,.15),rgba(8,22,18,.7)),url(hero.jpg) center/cover no-repeat,linear-gradient(135deg,#1f5f4f,#0f2f28)}
+header h1{margin:0;font:700 clamp(30px,8vw,48px)/1.2 var(--f-disp);text-wrap:balance;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+header p{margin:0;color:rgba(255,255,255,.92);text-shadow:0 1px 6px rgba(0,0,0,.45)}
+section{display:grid;gap:10px}
+h2{margin:0;font:700 20px/1.4 var(--f-disp);display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:6px;height:1.1em;background:var(--accent);border-radius:2px}
+p{margin:0;overflow-wrap:anywhere}
+.topics{margin:4px 0 0;padding-left:1.4em;display:grid;gap:4px}
+.topics li::marker{color:var(--accent);font-weight:700}
+.mlist{display:grid;gap:14px}
+.m{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;min-width:0}
+.m h3{margin:0;font:700 18px/1.4 var(--f-disp)}
+.m h4{margin:6px 0 0;font:700 16px/1.4 var(--f-disp)}
+.m ol{margin:0;padding-left:1.5em;display:grid;gap:4px}
+.m img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.m .tags{color:var(--dim);font-size:13px}
+.m .links{display:grid;gap:2px}
+.m a{color:var(--accent)}
+.note{color:var(--dim);font-size:14px}
+.members{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border-radius:8px;background:var(--accent);color:var(--on-accent);font-weight:700;text-decoration:none;justify-self:start}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+footer{color:var(--dim);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>MASEDA Lab.</h1>
+    <p>生物の適応・進化の機構を解析し、その利用をめざします。</p>
+  </header>
+
+  <section id="about">
+    <h2>研究の紹介</h2>
+    <p>私たちは、生物の適応・進化の機構の解析と、その利用に取り組んでいます。</p>
+    <ol class="topics">
+      <li>PODiR システム</li>
+      <li>国産のゲノムデザイン法の開発</li>
+      <li>革新的生物電気制御法の開発</li>
+    </ol>
+  </section>
+
+  <section id="methods">
+    <h2>手法(Methods)</h2>
+    <p id="methodsNote">実験手法は、順次、掲載していきます。</p>
+    <div id="methodsList" class="mlist"></div>
+  </section>
+
+  <section class="members" id="members">
+    <h2>グループのメンバーへ</h2>
+    <p>発注リストと、今日の連絡事項は、こちらから開きます。合言葉が必要です。</p>
+    <a class="btn" id="orderLink" href="#" aria-disabled="true">発注リスト・連絡事項を開く</a>
+    <p class="note" id="orderNote">準備中です。</p>
+  </section>
+
+  <footer>メンバー専用の内容は、このページには載せていません。合言葉のある、上のアプリの中だけにあります。</footer>
+</main>
+<script src="config.js"></script>
+<script>
+(function(){
+  var u = (window.LAB_ORDER_URL || '').trim();
+  var a = document.getElementById('orderLink'), n = document.getElementById('orderNote');
+  if (/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(u)) {
+    a.href = u; a.removeAttribute('aria-disabled'); a.rel = 'noopener noreferrer'; n.hidden = true;
+  }
+})();
+(function(){
+  var base = (window.LAB_METHODS_URL || '').trim();
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(base)) return;
+  var list = document.getElementById('methodsList'), note = document.getElementById('methodsNote');
+  function el(t, c, x){ var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function get(q){ return fetch(base + '?' + q).then(function(r){ return r.json(); }); }
+  function render(m){
+    var box = el('article', 'm');
+    box.appendChild(el('h3', '', m.title));
+    if (m.tags && m.tags.length) box.appendChild(el('div', 'tags', m.tags.map(function(t){ return '#' + t; }).join('  ')));
+    var ol = null;
+    String(m.body || '').split('\n').forEach(function(l){
+      l = l.trim(); if (!l) return;
+      if (l.indexOf('# ') === 0) { ol = null; box.appendChild(el('h4', '', l.slice(2))); return; }
+      if (!ol) { ol = el('ol'); box.appendChild(ol); }
+      ol.appendChild(el('li', '', l));
+    });
+    (m.images || []).forEach(function(id){
+      if (!/^[0-9a-f-]{36}$/.test(id)) return;
+      var im = el('img'); im.alt = 'スキーム・図'; im.loading = 'lazy'; box.appendChild(im);
+      get('mode=img&id=' + id).then(function(r){ if (r.ok && /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(r.data)) im.src = r.data; });
+    });
+    if (m.links && m.links.length) {
+      var ls = el('div', 'links');
+      m.links.forEach(function(l){
+        if (!/^https?:\/\//.test(l.url)) return;
+        var a = el('a', '', l.label || l.url); a.href = l.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; ls.appendChild(a);
+      });
+      box.appendChild(ls);
+    }
+    list.appendChild(box);
+  }
+  get('mode=public').then(function(r){
+    if (!r.ok || !r.methods || !r.methods.length) return;
+    note.hidden = true;
+    r.methods.forEach(render);
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
